@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookiebot CMP — Banner Bypass Test</title>
+
+    <!-- ============================================
+         WORKAROUND: Must be BEFORE the Cookiebot script
+         ============================================ -->
+    <script>
+        window.addEventListener("CookiebotOnDialogInit", function () {
+            if (Cookiebot.getDomainUrlParam("CookiebotScan") === "true")
+                Cookiebot.setOutOfRegion();
+        });
+    </script>
+
+    <!-- ============================================
+         COOKIEBOT SCRIPT
+         ============================================ -->
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
+        data-cbid="e2769309-3672-42d4-bc3f-d56333e6a880"
+        data-blockingmode="auto"
+        type="text/javascript"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0e1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --green: #3fb950;
+            --green-bg: rgba(63, 185, 80, 0.1);
+            --red: #f85149;
+            --red-bg: rgba(248, 81, 73, 0.1);
+            --blue: #58a6ff;
+            --blue-bg: rgba(88, 166, 255, 0.08);
+            --yellow: #d29922;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Status Card */
+        .status-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-card h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.65rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .status-row:last-child { border-bottom: none; }
+
+        .status-row .label { color: var(--muted); }
+
+        .status-row .value {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pill--green { background: var(--green-bg); color: var(--green); }
+        .pill--red { background: var(--red-bg); color: var(--red); }
+        .pill--blue { background: var(--blue-bg); color: var(--blue); }
+
+        .pill::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* Test section */
+        .test-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s ease 0.1s both;
+        }
+
+        .test-section h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .test-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .test-link {
+            display: block;
+            padding: 0.85rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.85rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .test-link:hover {
+            border-color: var(--blue);
+            background: var(--blue-bg);
+        }
+
+        .test-link .link-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .test-link .link-url {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--muted);
+            word-break: break-all;
+        }
+
+        /* Log */
+        .log-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            animation: fadeIn 0.5s ease 0.2s both;
+        }
+
+        .log-section h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        #log {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            line-height: 1.8;
+            color: var(--muted);
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .log-entry { padding: 0.15rem 0; }
+        .log-ts { color: #484f58; margin-right: 0.5rem; }
+        .log-ok { color: var(--green); }
+        .log-warn { color: var(--yellow); }
+        .log-err { color: var(--red); }
+        .log-info { color: var(--blue); }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #484f58;
+            font-size: 0.75rem;
+            font-family: var(--mono);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="badge">L3 Test Page</div>
+        <h1>Cookiebot Banner Bypass Test</h1>
+        <p>Validates the <code style="background:var(--blue-bg);padding:0.1em 0.4em;border-radius:4px;font-family:var(--mono);font-size:0.85em;">CookiebotScan</code> workaround for hiding the consent banner during automated testing.</p>
+    </header>
+
+    <!-- Status -->
+    <div class="status-card">
+        <h2>Detection Status</h2>
+        <div class="status-row">
+            <span class="label">Query parameter</span>
+            <span class="value" id="param-status">—</span>
+        </div>
+        <div class="status-row">
+            <span class="label">Expected banner behavior</span>
+            <span class="value" id="expected-behavior">—</span>
+        </div>
+        <div class="status-row">
+            <span class="label">Cookiebot loaded</span>
+            <span class="value" id="cb-loaded">—</span>
+        </div>
+        <div class="status-row">
+            <span class="label">Banner visible</span>
+            <span class="value" id="banner-visible">—</span>
+        </div>
+        <div class="status-row">
+            <span class="label">Consent state</span>
+            <span class="value" id="consent-state">—</span>
+        </div>
+    </div>
+
+    <!-- Test links -->
+    <div class="test-section">
+        <h2>Test Links</h2>
+        <div class="test-links">
+            <a class="test-link" id="link-normal" href="#">
+                <span class="link-label">① Normal visit — banner should SHOW</span>
+                <span class="link-url" id="url-normal"></span>
+            </a>
+            <a class="test-link" id="link-bypass" href="#">
+                <span class="link-label">② With bypass param — banner should HIDE</span>
+                <span class="link-url" id="url-bypass"></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Event log -->
+    <div class="log-section">
+        <h2>Event Log</h2>
+        <div id="log"></div>
+    </div>
+
+    <footer>Cookiebot CMP · Workaround Test · CBID e2769309-3672-42d4-bc3f-d56333e6a880</footer>
+</div>
+
+<script>
+    // ── Helpers ──
+    const logEl = document.getElementById('log');
+    function log(msg, type = 'info') {
+        const ts = new Date().toLocaleTimeString('en-GB');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `<span class="log-ts">${ts}</span><span class="log-${type}">${msg}</span>`;
+        logEl.prepend(entry);
+    }
+
+    function pill(text, color) {
+        return `<span class="pill pill--${color}">${text}</span>`;
+    }
+
+    // ── Query param detection ──
+    const params = new URLSearchParams(window.location.search);
+    const hasBypass = params.get('CookiebotScan') === 'true';
+
+    document.getElementById('param-status').innerHTML = hasBypass
+        ? pill('CookiebotScan=true', 'green')
+        : pill('Not present', 'red');
+
+    document.getElementById('expected-behavior').innerHTML = hasBypass
+        ? pill('Hidden (bypass active)', 'green')
+        : pill('Visible (normal)', 'blue');
+
+    log(hasBypass
+        ? 'CookiebotScan=true detected → setOutOfRegion() will fire'
+        : 'No bypass parameter → banner should display normally',
+        hasBypass ? 'ok' : 'info');
+
+    // ── Build test links ──
+    const base = window.location.origin + window.location.pathname;
+    const normalUrl = base;
+    const bypassUrl = base + '?CookiebotScan=true';
+
+    document.getElementById('url-normal').textContent = normalUrl;
+    document.getElementById('url-bypass').textContent = bypassUrl;
+    document.getElementById('link-normal').href = normalUrl;
+    document.getElementById('link-bypass').href = bypassUrl;
+
+    // ── Cookiebot event listeners ──
+    window.addEventListener('CookiebotOnDialogInit', function () {
+        log('Event: CookiebotOnDialogInit fired', 'ok');
+    });
+
+    window.addEventListener('CookiebotOnDialogDisplay', function () {
+        log('Event: CookiebotOnDialogDisplay — banner is now visible', 'warn');
+    });
+
+    window.addEventListener('CookiebotOnAccept', function () {
+        log('Event: CookiebotOnAccept — consent accepted', 'ok');
+    });
+
+    window.addEventListener('CookiebotOnLoad', function () {
+        log('Event: CookiebotOnLoad — Cookiebot fully loaded', 'ok');
+        updateStatus();
+    });
+
+    window.addEventListener('CookiebotOnConsentReady', function () {
+        log('Event: CookiebotOnConsentReady', 'info');
+        updateStatus();
+    });
+
+    // ── Status checker ──
+    function updateStatus() {
+        // Cookiebot loaded?
+        const cbExists = typeof Cookiebot !== 'undefined';
+        document.getElementById('cb-loaded').innerHTML = cbExists
+            ? pill('Yes', 'green')
+            : pill('No', 'red');
+
+        if (!cbExists) return;
+
+        // Banner visible?
+        const bannerEl = document.getElementById('CybotCookiebotDialog');
+        const isVisible = bannerEl && bannerEl.offsetParent !== null && bannerEl.style.display !== 'none';
+        document.getElementById('banner-visible').innerHTML = isVisible
+            ? pill('Yes — visible', 'red')
+            : pill('No — hidden', 'green');
+
+        if (isVisible) {
+            log('Banner is VISIBLE on the page', 'warn');
+        } else {
+            log('Banner is NOT visible (hidden or not rendered)', 'ok');
+        }
+
+        // Consent state
+        const consent = Cookiebot.consent;
+        if (consent) {
+            const cats = [];
+            if (consent.necessary) cats.push('necessary');
+            if (consent.preferences) cats.push('preferences');
+            if (consent.statistics) cats.push('statistics');
+            if (consent.marketing) cats.push('marketing');
+            document.getElementById('consent-state').innerHTML = pill(cats.join(', ') || 'none', 'blue');
+            log('Consent categories: ' + (cats.join(', ') || 'none'), 'info');
+        }
+    }
+
+    // Periodic check for first few seconds
+    let checks = 0;
+    const interval = setInterval(function () {
+        updateStatus();
+        checks++;
+        if (checks > 10) clearInterval(interval);
+    }, 1000);
+
+    log('Test page initialized — waiting for Cookiebot…', 'info');
+</script>
+
+</body>
+</html>
