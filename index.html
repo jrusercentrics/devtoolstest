@@ -7,12 +7,25 @@
 
     <!-- ============================================
          WORKAROUND: Must be BEFORE the Cookiebot script
+         Only registers the listener if ?CookiebotScan=true
+         is actually in the URL — zero interference otherwise
          ============================================ -->
     <script>
-        window.addEventListener("CookiebotOnDialogInit", function () {
-            if (Cookiebot.getDomainUrlParam("CookiebotScan") === "true")
-                Cookiebot.setOutOfRegion();
-        });
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var bypass = params.get("CookiebotScan") === "true";
+            console.log("[CB-TEST] Bypass param present:", bypass);
+
+            if (bypass) {
+                console.log("[CB-TEST] Registering CookiebotOnDialogInit listener for setOutOfRegion()");
+                window.addEventListener("CookiebotOnDialogInit", function () {
+                    console.log("[CB-TEST] CookiebotOnDialogInit fired — calling setOutOfRegion()");
+                    Cookiebot.setOutOfRegion();
+                });
+            } else {
+                console.log("[CB-TEST] No bypass — banner should show normally");
+            }
+        })();
     </script>
 
     <!-- ============================================
